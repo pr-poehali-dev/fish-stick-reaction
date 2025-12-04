@@ -5,6 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import Presentation from '@/components/Presentation';
 
 const courses = [
   {
@@ -73,7 +74,27 @@ const articles = [
 
 export default function Index() {
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [showPresentation, setShowPresentation] = useState(false);
   const totalProgress = Math.round(courses.reduce((acc, c) => acc + c.progress, 0) / courses.length);
+
+  if (showPresentation) {
+    return (
+      <div>
+        <div className="fixed top-4 left-4 z-50">
+          <Button
+            onClick={() => setShowPresentation(false)}
+            variant="outline"
+            size="lg"
+            className="gap-2 bg-white/90 backdrop-blur-sm shadow-lg"
+          >
+            <Icon name="ArrowLeft" size={20} />
+            Вернуться на главную
+          </Button>
+        </div>
+        <Presentation />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-accent/20 to-secondary/30">
@@ -182,6 +203,45 @@ export default function Index() {
           </TabsContent>
 
           <TabsContent value="articles" className="animate-fade-in">
+            <Card className="mb-6 bg-gradient-to-r from-primary to-cyan-500 border-0 text-white hover:shadow-xl transition-all duration-300 cursor-pointer"
+              onClick={() => setShowPresentation(true)}>
+              <CardContent className="p-8">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                        <Icon name="Presentation" className="text-white" size={24} />
+                      </div>
+                      <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30">
+                        <Icon name="Play" size={12} className="mr-1" />
+                        Интерактивная презентация
+                      </Badge>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">
+                      🎯 Роль оптомоторной реакции в стайном поведении рыб
+                    </h3>
+                    <p className="text-white/90 text-lg mb-4">
+                      Полная презентация с научными данными, исследованиями и визуализацией механизмов координации движения в стаях
+                    </p>
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Icon name="Layers" size={16} />
+                        <span>7 слайдов</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Icon name="Clock" size={16} />
+                        <span>15 минут</span>
+                      </div>
+                    </div>
+                  </div>
+                  <Button size="lg" variant="secondary" className="gap-2 ml-4">
+                    Открыть презентацию
+                    <Icon name="ArrowRight" size={20} />
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
             <div className="space-y-6">
               {articles.map((article, index) => (
                 <Card 
